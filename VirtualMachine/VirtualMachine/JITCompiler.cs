@@ -32,7 +32,20 @@ internal static class JITCompiler
 
         #region TASK 1 - TO BE IMPLEMENTED BY THE STUDENT
         #endregion
-        return instruction;
+        foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+        {
+            foreach (var type in assembly.GetTypes())
+            {
+                if (type.IsClass && typeof(IInstruction).IsAssignableFrom(type) &&
+                    string.Equals(type.Name, opcode, StringComparison.OrdinalIgnoreCase))
+                {
+                    return (IInstruction)Activator.CreateInstance(type);
+                }
+            }
+        }
+
+        throw new SvmCompilationException($"No matching instruction found for opcode: {opcode}");
+        
     }
 
     internal static IInstruction CompileInstruction(string opcode, params string[] operands)
@@ -41,7 +54,28 @@ internal static class JITCompiler
 
         #region TASK 1 - TO BE IMPLEMENTED BY THE STUDENT
         #endregion
-        return instruction;
+
+        foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+        {
+            foreach (var type in assembly.GetTypes())
+            {
+                if (type.IsClass && typeof(IInstructionWithOperand).IsAssignableFrom(type) &&
+                    string.Equals(type.Name, opcode, StringComparison.OrdinalIgnoreCase))
+                {
+                    var instructionWithOperand = (IInstructionWithOperand)Activator.CreateInstance(type);
+
+                    if (operands != null && operands.Length > 0)
+                    {
+                        instructionWithOperand.Operands = operands;
+                    }
+
+                    return instructionWithOperand;
+                }
+            }
+        }
+
+        throw new SvmCompilationException($"No matching instruction with operands found for opcode: {opcode}");
     }
-    #endregion
 }
+    #endregion
+

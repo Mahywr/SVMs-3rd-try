@@ -76,9 +76,11 @@ public sealed class SvmVirtualMachine
     /// </summary>
     public int ProgramCounter
     {
+
         #region TASK 1 - TO BE IMPLEMENTED BY THE STUDENT
         #endregion
-        get;
+        get { return programCounter; }
+        set { programCounter = value; }
     }
     #endregion
 
