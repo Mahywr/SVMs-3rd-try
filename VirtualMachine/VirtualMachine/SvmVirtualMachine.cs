@@ -1,7 +1,7 @@
 ﻿/// <summary>
 /// Implements the Simple Virtual Machine (SVM) virtual machine 
 /// </summary>
-public sealed class SvmVirtualMachine
+public sealed class SvmVirtualMachine : IVirtualMachine
 {
     #region Constants
     private const string CompilationErrorMessage = "An SVM compilation error has occurred at line {0}.\r\n\r\n{1}\r\n";
@@ -14,11 +14,13 @@ public sealed class SvmVirtualMachine
     #region Fields
     private IDebugger debugger = null;
     private List<IInstruction> program = new List<IInstruction>();
-    private Stack stack = new Stack();
+    private Stack<object> stack = new Stack<object>();
     private int programCounter = 0;
     #endregion
 
     #region Constructors
+
+    
 
     public SvmVirtualMachine(string filepath)
     {
@@ -59,7 +61,7 @@ public sealed class SvmVirtualMachine
     ///  This is used by executing instructions to retrieve
     ///  operands and store results
     /// </summary>
-    public Stack Stack
+    public Stack<object> Stack
     {
         get
         {

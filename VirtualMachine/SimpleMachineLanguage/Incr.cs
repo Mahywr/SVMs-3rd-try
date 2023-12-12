@@ -2,6 +2,7 @@
 {
     public class Incr : BaseInstruction
     {
+        public IVirtualMachine VirtualMachine { get; set; }
         public override void Run()
         {
             // Ensure the stack is not empty
