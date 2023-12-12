@@ -140,7 +140,7 @@ public sealed class SvmVirtualMachine
     /// If an unexpected error occurs during
     /// program execution
     /// </exception>
-    private void Run()
+    private void Run()   //task2
     {
         DateTime start = DateTime.Now;
 
